@@ -1,0 +1,22 @@
+doctype html
+html
+    head
+    body
+
+      nav
+        a BLOG APPLICATION
+          ul
+            li
+              a(href='/') LOGIN
+            li
+              a(href='/profile') PROFILE
+            li
+              a(href='/register') REGISTER
+
+      h1 This is your profile #{user.username}
+
+      h3 Email: #{user.email}
+
+      a(href='/') home
+      br
+      a(href='/logout') log out

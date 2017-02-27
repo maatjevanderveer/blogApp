@@ -1,0 +1,24 @@
+doctype html
+html
+    head
+    body
+
+      nav
+        a BLOG APPLICATION
+          ul
+            li
+              a(href='/') LOGIN
+            li
+              a(href='/profile') PROFILE
+            li
+              a(href='/register') REGISTER
+
+      h1 Register here
+
+            form(action='/newmessage' method='post')
+                  label(for='title') Title:
+                  input(type='text',placeholder='type your title here...',name='newTitle')
+                  label(for='body') Body:
+                  input(type='text',placeholder='type your message here...',name='newBody')
+                  button(type='submit') Post message now
+
