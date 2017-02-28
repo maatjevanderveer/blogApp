@@ -24,7 +24,7 @@ const User = db.define('user', {
 
 // CREATE TABLE
 db.sync({
-	force: true				// will drop tables before recreating them
+	// force: true				// will drop tables before recreating them
 })
 .then(function(someParameter) {
 	const oneUser = {

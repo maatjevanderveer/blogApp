@@ -15,10 +15,19 @@ html
 
       h1 Register here
 
-            form(action='/newmessage' method='post')
-                  label(for='title') Title:
-                  input(type='text',placeholder='type your title here...',name='newTitle')
-                  label(for='body') Body:
-                  input(type='text',placeholder='type your message here...',name='newBody')
-                  button(type='submit') Post message now
+      form(action='/newuser' method='post')
+
+        label(for='username') Username:
+        input(type='text', placeholder='type a username here...', name='newUsername')
+
+        label(for='email') Email:
+        input(type='text', placeholder='type your email address here...', name='newEmail') 
+
+        label(for='password') Password:
+        input(type='text', placeholder='type a password here...', name='newPassword')
+
+        button(type='submit', name='action') Register Now
+
+      //- IMPORT JS
+      script(src='js/jquery-3.1.1.js')
 

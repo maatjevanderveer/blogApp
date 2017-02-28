@@ -16,6 +16,7 @@ app.use(session({
 }));
 
 // ROUTING
+// LOGIN
 app.get('/', function (request, response) {
 	response.render('index', {
 		message: request.query.message,
@@ -50,6 +51,7 @@ app.post('/login', bodyparser.urlencoded({extended: true}), function (request, r
 	});
 });
 
+// PROFILE
 app.get('/profile', function (request, response) {
 	var user = request.session.user;
 	if (user === undefined) {
@@ -61,6 +63,7 @@ app.get('/profile', function (request, response) {
 	}
 });
 
+// LOGOUT
 app.get('/logout', function (request, response) {
 	request.session.destroy(function(error) {
 		if(error) {
@@ -69,6 +72,26 @@ app.get('/logout', function (request, response) {
 		response.redirect('/?message=' + encodeURIComponent("Successfully logged out."));
 	})
 });
+
+// REGISTER 
+app.get('/register', function (request, response) {
+	response.render('register')
+})
+
+app.post('/newuser', bodyparser.urlencoded({extended: true}), function(request, response) {
+	
+	db.User.create({
+		username: request.body.newUsername,
+		email: request.body.newEmail,
+		password: request.body.newPassword
+	}).then( (newUser) =>{
+		console.log(newUser)
+		// response.redirect('/profile')
+		response.redirect('/?message=' + encodeURIComponent("Successfully registered. Login now."));
+	})
+	// connect to database
+	// 
+})
 
 app.listen(3000, () => {
 	console.log('the server is running on localhost:3000')
