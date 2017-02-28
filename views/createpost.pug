@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    title create post
+  body      
+    h1 Create post here
+
+    form(action='/newpost' method='post')
+
+      label(for='title') Title:
+      input(type='text', placeholder='write the title here...', name='newTitle')
+      label(for='body') Post:
+      br
+      textarea.input(type='text', placeholder='write your post here...', name='newPost')
+      br
+      button(type='submit', name='action') Post Now
+
+    br
+    a(href='/') home
+    br
+    a(href='/createpost') create post
+    br
+    a(href='/myownposts') my own posts
+    br
+    a(href='everyone\'s posts') everyone's posts
+    br
+    a(href='/logout') log out

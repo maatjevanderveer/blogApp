@@ -93,6 +93,43 @@ app.post('/newuser', bodyparser.urlencoded({extended: true}), function(request, 
 	// 
 })
 
+// CREATE POST
+app.get('/createpost', function (request, response) {
+	response.render('createpost')
+})
+
+app.post('/newpost', bodyparser.urlencoded({extended: true}), function(request, response) {
+	
+	db.Post.create({
+		title: request.body.newTitle,
+		body: request.body.newPost
+	}).then( (newPost) =>{
+		console.log(newPost)
+		response.redirect('/myownposts')
+	})
+	// connect to database
+	// 
+})
+
+// ALL MY POSTS
+app.get('/myownposts', function(request, response) {
+	db.Post.findAll()
+	.then((allMyPosts) => {
+		//const allTitles = []
+		console.log(allMyPosts[0].dataValues)
+
+		// for (var i = 0; i < allMessages.length; i++) {
+		// 	allTitles.push(allMessages[i])
+		// }
+		// response.send(allTitles)
+		response.render('myownposts', {allMyPosts:allMyPosts})
+		//console.log('this logs all messages')
+		//console.log(allTitles)
+		
+	})
+})
+
+
 app.listen(3000, () => {
 	console.log('the server is running on localhost:3000')
 });

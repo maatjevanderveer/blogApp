@@ -13,10 +13,20 @@ html
             li
               a(href='/register') REGISTER
 
-      h1 This is your profile #{user.username}
+      h1 This is your profile, #{user.username}
 
-      h3 Email: #{user.email}
+      h4 Overview:
+      p 
+        ul(style="list-style: none")
+          li Username: #{user.username}
+          li Email: #{user.email}
 
       a(href='/') home
+      br
+      a(href='/createpost') create post
+      br
+      a(href='/myownposts') my own posts
+      br
+      a(href='everyone\'s posts') everyone's posts
       br
       a(href='/logout') log out
