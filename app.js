@@ -95,14 +95,22 @@ app.post('/newuser', bodyparser.urlencoded({extended: true}), function(request, 
 
 // CREATE POST
 app.get('/createpost', function (request, response) {
-	response.render('createpost')
+	user = request.session.user
+	if(user === undefined) {
+		response.redirect('/')
+	}
+	else {
+		response.render('createpost')
+	}
 })
 
 app.post('/newpost', bodyparser.urlencoded({extended: true}), function(request, response) {
-	
+	console.log(request.session)
 	db.Post.create({
 		title: request.body.newTitle,
-		body: request.body.newPost
+		body: request.body.newPost,
+		userId: request.session.user.id
+
 	}).then( (newPost) =>{
 		console.log(newPost)
 		response.redirect('/myownposts')
@@ -113,7 +121,11 @@ app.post('/newpost', bodyparser.urlencoded({extended: true}), function(request, 
 
 // ALL MY POSTS
 app.get('/myownposts', function(request, response) {
-	db.Post.findAll()
+	db.Post.findAll( {
+		where: {
+			userId: 1
+		}
+	})
 	.then((allMyPosts) => {
 		//const allTitles = []
 		console.log(allMyPosts[0].dataValues)
@@ -127,6 +139,21 @@ app.get('/myownposts', function(request, response) {
 		//console.log(allTitles)
 		
 	})
+})
+
+// ALL POSTS
+app.get('/allPosts', function (request, response) {
+	user = request.session.user
+	if(user === undefined) {
+		response.redirect('/')
+	}
+	else {
+		db.Post.findAll()
+		.then((allPosts) => {
+			console.log(allPosts[0].dataValues)
+			response.render('allPosts', {allPosts:allPosts})
+		})
+	}
 })
 
 

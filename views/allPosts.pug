@@ -4,10 +4,10 @@ html
     title my own posts
   body
     //- MESSAGE BOARD
-    h3 My own posts
+    h3 All posts
 
     
-    each key in allMyPosts
+    each key in allPosts
       p #{key.userId}:
       p #{key.title}
       p #{key.body}
@@ -27,4 +27,3 @@ html
     
     //- IMPORT JS
     script(src='js/jquery-3.1.1.js')
-

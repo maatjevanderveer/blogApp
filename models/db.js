@@ -31,58 +31,39 @@ const Post = db.define('post', {
 	body: {
 		type: Sequelize.STRING,
 		allowNull: false,
-	},
+	}
 	// User_id: {
 	// 	type: Sequelize.INTEGER,
 	// 	allowNull: false,
 	// }
 });
 
-// //a person can have many posts...
-// User.hasMany(Post, {
-// 	foreignKey: 'User_id',
-// 	constraints: false,
-// });
-// //... but a post belongs to a single person.
-// Post.belongsTo(User, {
-// 	foreignKey: 'User_id',
-// 	constraints: false,
-// });
+//a person can have many posts...
+User.hasMany(Post);
+//... but a post belongs to a single person.
+Post.belongsTo(User);
 
 // CREATE TABLE
 db.sync({
 	// force: true				// will drop tables before recreating them
 })
-.then(function(someParameter) {
-	const oneUser = {
-		username: "maatje",
-		email: "maatje@maatje",
-		password: "not_password"
-	}
-	User.create(oneUser)
-	// .then(function() {
-	// 	var server = app.listen(3000, function () {
-	// 		console.log('listening on port 3000')
-	// 	})
-	// })
+.then(function() {
+	// const oneUser = {
+	// 	username: "maatje",
+	// 	email: "maatje@maatje",
+	// 	password: "not_password"
+	// }
+	// User.create(oneUser)	
 })
-.catch( (error) => console.log(error) );
-
-// CREATE TABLE
-db.sync({
-	// force: true				// will drop tables before recreating them
-})
-.then(function(someParameter) {
-	const onePost = {
-		title: "this is the title of some post",
-		body: "this is the body of some post"
-	}
-	Post.create(onePost)
-	// .then(function() {
-	// 	var server = app.listen(3000, function () {
-	// 		console.log('listening on port 3000')
-	// 	})
-	// })
+.then(function(user) {
+	// console.log(user)
+	// const onePost = {
+	// 	title: "this is the title of some post",
+	// 	body: "this is the body of some post",
+	// 	userId: 1
+	// }
+	// Post.create(onePost)
+	// console.log(user)
 })
 .catch( (error) => console.log(error) );
 
