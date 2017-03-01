@@ -121,13 +121,20 @@ app.post('/newpost', bodyparser.urlencoded({extended: true}), function(request, 
 
 // ALL MY POSTS
 app.get('/myownposts', function(request, response) {
-	db.Post.findAll( {
-		where: {
-			userId: 1
-		}
-	})
-	.then((allMyPosts) => {
+	user = request.session.user
+	console.log(user)
+	if (user === undefined) {
+		response.redirect('/')
+	}
+	else {
+		db.Post.findAll( { 
+			where: {
+				userId: request.session.user.id
+			}
+		})
+		.then((allMyPosts) => {
 		//const allTitles = []
+		console.log('this logges the data')
 		console.log(allMyPosts[0].dataValues)
 
 		// for (var i = 0; i < allMessages.length; i++) {
@@ -137,8 +144,8 @@ app.get('/myownposts', function(request, response) {
 		response.render('myownposts', {allMyPosts:allMyPosts})
 		//console.log('this logs all messages')
 		//console.log(allTitles)
-		
 	})
+	}
 })
 
 // ALL POSTS
