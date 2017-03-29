@@ -1,75 +1,147 @@
-//- JAVASCRIPT CODE TO COMMUNICATE WITH DATABASE BY USING SEQUELIZE //-
+// ADD SEQUELIZE LIBRARY
+const Sequelize = require('sequelize');
+const db = { };
 
-// SET UP CONNECTION WITH DATABASE
-const Sequelize = require('sequelize')
-const db = new Sequelize('blogapp', process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, {
-	dialect: 'postgres'
-}); // ('database name', 'username', 'password')
+// CONNECTING WITH DATABASE
+db.connect = new Sequelize('blogapp', process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, {
+  dialect: 'postgres',
+  host: 'localhost',
+  define: {
+	  timestamps: false
+  }
+});
 
-// DEFINE MODEL (W/ USERS)
-const User = db.define('user', {
-	username: {
+// TEST CONNECTION
+db.connect
+	.authenticate()
+	.then(function(err) {
+	   console.log('Connection has been established successfully.');
+	}, function (err) {
+		console.log('Unable to connect to the database:', err);
+	});
+
+// DEFINING USER MODEL
+db.User = db.connect.define('user', {
+	userName:  {
 		type: Sequelize.STRING,
 		allowNull: false,
+		isUnique: true
 	},
-	email: {
+	password:   {
 		type: Sequelize.STRING,
 		allowNull: false,
+		isUnique: true
 	},
-	password: {
+	email:   {
 		type: Sequelize.STRING,
 		allowNull: false,
+		isUnique: true
 	}
 });
 
-// DEFINE MODEL (W/ POSTS)
-const Post = db.define('post', {
-	title: {
+// DEFINING POST MODEL
+db.Post = db.connect.define('post', {
+	title:  {
 		type: Sequelize.STRING,
 		allowNull: false,
+		isUnique: true
 	},
-	body: {
+	body:   {
 		type: Sequelize.STRING,
 		allowNull: false,
+		isUnique: true
 	}
-	// User_id: {
-	// 	type: Sequelize.INTEGER,
-	// 	allowNull: false,
-	// }
 });
 
-//a person can have many posts...
-User.hasMany(Post);
-//... but a post belongs to a single person.
-Post.belongsTo(User);
+// DEFINING COMMENT MODEL
+db.Comment = db.connect.define('comment', {
+	userName:  {
+		type: Sequelize.STRING,
+//        allowNull: false,
+		isUnique: true
+	},
+	body:   {
+		type: Sequelize.STRING,
+		allowNull: false,
+		isUnique: true
+	}
+});
 
-// CREATE TABLE
-db.sync({
-	// force: true				// will drop tables before recreating them
-})
-.then(function() {
-	// const oneUser = {
-	// 	username: "maatje",
-	// 	email: "maatje@maatje",
-	// 	password: "not_password"
-	// }
-	// User.create(oneUser)	
-})
-.then(function(user) {
-	// console.log(user)
-	// const onePost = {
-	// 	title: "this is the title of some post",
-	// 	body: "this is the body of some post",
-	// 	userId: 1
-	// }
-	// Post.create(onePost)
-	// console.log(user)
-})
-.catch( (error) => console.log(error) );
+// DB RELATIONS
+db.User.hasMany(db.Post)
+db.User.hasMany(db.Comment)
+db.Post.belongsTo(db.User)
+db.Post.hasMany(db.Comment)
+db.Comment.belongsTo(db.Post)
+db.Comment.belongsTo(db.User)
 
-// EXPORT MODEL (IN THIS CASE TO APP.JS)
-module.exports = {
-	db: db,
-	User: User,
-	Post: Post
-}
+//SYNCING THE DATABASE AND CREATING ADMIN USER
+db.connect
+	.sync({force:true})
+
+	.then(function(){
+	return db.User.create({
+		userName: 'Maatje',
+		email: 'maatje@mail.com', 
+		password: 'not_password'
+	})
+		.then(function(user) {
+		return user.createPost({
+		title: 'This is a title (Maatje)',
+		body: 'This is the body of one post (Maatje)'
+		})
+	})
+		.then(function(post){
+		return post.createComment({
+		body: 'This is a comment on my own post (Maatje)',
+		userId: post.userId
+		})
+	})
+		
+		.then(function(){
+		return db.User.create({
+			userName: 'Kirsten',
+			email: 'kirsten@mail.com', 
+			password: 'not_password'
+		})
+	})
+			.then(function(user) {
+			return user.createPost({
+				title: 'This is a title (Kirsten)',
+				body: 'This is the body of one post (Kirsten)'
+			})
+		})
+		.then(function(post){
+			return post.createComment({
+				body: 'This is one comment to my own post (Kirsten)',
+				userId: post.userId
+			})
+		})
+			
+			.then(function(){
+			return db.User.create({
+				userName: 'Hajar',
+				email: 'hajar@mail.com', 
+				password: 'not_password'
+			})
+	})
+			.then(function(user) {
+				return user.createPost({
+					title: 'This is the title of my post (Hajar)',
+					body: 'This is the body of my own post (Hajar)'
+				})
+			})
+			.then(function(post){
+				return post.createComment({
+					body: 'This is a comment of my own post (Hajar)',
+					userId: post.userId
+				})
+			})
+			.catch (function(error){
+				console.log(error);
+				})
+			})
+
+
+// EXPORT db
+module.exports = db

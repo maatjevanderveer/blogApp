@@ -1,40 +1,21 @@
 doctype html
 html
-    head
-        script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
-        script.
-            $(document).ready(function () {
-                $('#submit').click(function(event) {
-                    if($('#email').val().trim().length === 0 || $('#password').val().trim().length === 0) {
-                        event.preventDefault();
-                        $('#error-message').html("Your username or password is empty.");
-                    }
-                });
-            });
-    body
+	head
+		title blogApp
+		link(rel='stylesheet', type='text/css', href='../static/css/stylesheet.css')
+		link(href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet")
+		link(href="https://fonts.googleapis.com/css?family=Cabin|Josefin+Sans" rel="stylesheet")
 
-      nav
-          a BLOG APPLICATION
-            ul
-              li
-                a(href='/') LOGIN
-              li
-                a(href='/profile') PROFILE
-              li
-                a(href='/register') REGISTER
+	body
+		wrapper
+			div.center
+				p you're first time here? then:
+				button.firstbutton(type='button', onclick="location.href='/signup'") Sign up
 
-      h1 Login
+				p or are you already registered?
+				button.firstbutton(type='button', onclick="location.href='/login'") Log in
 
-      if user
-        a(href='/profile') view profile
-        br
-        a(href='/logout') log out
-      else
-        form(action='/login' method='post')
-          label email
-          input#email(name='email' required)
-          label password
-          input#password(name='password' type='password' required)
-          input(type='submit' value='login' id='submit')
 
-        h2#error-message= message
+
+		script(src="../static/js/jquery-3.1.1.js")
+		script(src="../static/js/custom.js")

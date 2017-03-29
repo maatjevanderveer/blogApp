@@ -1,0 +1,48 @@
+doctype html
+html
+	head
+		title blogApp
+		link(rel='stylesheet', type='text/css', href='../static/css/stylesheet.css')
+		link(href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet")
+		link(href="https://fonts.googleapis.com/css?family=Cabin|Josefin+Sans" rel="stylesheet")
+	body
+		wrapper
+			nav
+				ul
+					li
+						a(href='/') Home
+				
+					li
+						a(href='/login') Log In
+					li
+						a(href='/signup') Sign Up
+		h1  Signup Page
+			
+		form#msform(action='/signup', method='post')
+			fieldset
+				h2.fs-title Create your account
+				h3.fs-subtitle Sign up for free
+				input(type='text', name='username', placeholder='Username' required)
+				|  
+				input(type='email', name='email', placeholder='Email' required)
+				|  
+				input(type='password', name='password', class="password" placeholder='Password' required)
+				|  
+				input(type='password', name='cpassword', class="cpassword" placeholder='Confirm Password' required)
+				|  
+				input(class="submitbutton", type='submit', name='submit', value='Sign up')
+				p Already a member? You can <a href="/login" class="memer">log in</a> here
+
+		h3#error-message
+
+		script(src="../static/js/jquery-3.1.1.js")
+		script(src="../static/js/custom.js")
+		script.
+			$(document).ready(function(){
+			$('.submitbutton').click(function(event){
+				if($('.password') !== $('.cpassword')) {
+					$('#error-message').html("Passwords do not match");
+					
+				}
+			});
+			});
