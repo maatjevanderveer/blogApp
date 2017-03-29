@@ -7,12 +7,12 @@ const bcrypt = require('bcrypt');
 const pg = require('pg')
 const db = require(__dirname + '/../../models/db.js')
 
-app.get('/', function (req, res) {
+app.get('/', function (request, response) {
     req.session.destroy(function(error) {
         if(error) {
             throw error;
         }
-        res.redirect('index')
+        response.redirect('login')
         alert("Successfully logged out.");
     })
 })

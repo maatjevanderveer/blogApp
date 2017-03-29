@@ -31,12 +31,13 @@ html
 				input(type='password', name='cpassword', class="cpassword" placeholder='Confirm Password' required)
 				|  
 				input(class="submitbutton", type='submit', name='submit', value='Sign up')
-				p Already a member? You can <a href="/login" class="memer">log in</a> here
 
 		h3#error-message
 
 		script(src="../static/js/jquery-3.1.1.js")
 		script(src="../static/js/custom.js")
+
+		//- DATA VALIDATION
 		script.
 			$(document).ready(function(){
 			$('.submitbutton').click(function(event){
