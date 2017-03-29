@@ -9,7 +9,7 @@ const db = require(__dirname + '/../../models/db.js')
 
 // GET REQUEST INDEX.PUG
 app.get('/', function(request, response){
-    response.render('../../views/index.pug')
+    response.render('../../views/login.pug')
 });
 
 module.exports = app;
